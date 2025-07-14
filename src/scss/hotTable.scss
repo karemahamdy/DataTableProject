@@ -1,0 +1,109 @@
+.v-application {
+    #excelTable #importFile {
+        position: absolute;
+        width: 140%;
+        height: 160%;
+        cursor: pointer;
+        opacity: 0;
+        right: -15px;
+        top: -5px;
+    }
+
+    #excelTable:not(.customStyle) {
+        .handsontable td {
+            border: 1px solid #f0f0f0 !important;
+        }
+
+        .handsontable tr:nth-of-type(even) td {
+            background-color: #fff !important;
+        }
+
+        .handsontable tr:nth-of-type(odd) td {
+            background-color: #f6f6f6 !important;
+        }
+    }
+
+    #excelTable .handsontable td {
+        border-bottom: 1px solid #d2d2d2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    #excelTable .handsontable td.htInvalid {
+        background-color: transparent !important;
+    }
+
+    #excelTable .handsontable .htCore .listbox {
+        background: #eee !important;
+
+    }
+
+
+
+    #excelTable .handsontable[role="treegrid"] {
+        overflow: visible !important;
+    }
+
+    #excelTable .handsontable::-webkit-scrollbar {
+        width: 1px;
+        opacity: 0;
+    }
+
+    .ht_master .wtHolder {
+        overflow-x: hidden !important;
+    }
+
+    #excelTable .handsontable::-webkit-scrollbar:hover {
+        opacity: 1 !important;
+    }
+
+    #excelTable .handsontable::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+
+    #excelTable .handsontable::-webkit-scrollbar-thumb {
+        background: #c2cfe0 !important;
+        border-radius: 1px;
+    }
+
+    #excelTable .handsontable::-webkit-scrollbar-thumb:hover {
+        background: #90a0b7 !important;
+    }
+
+    #excelTable .handsontableEditor.autocompleteEditor.listbox.handsontable {
+        height: 220px !important;
+    }
+
+    #excelTable .handsontable tr .listbox .current {
+        background: var(--blue10) !important;
+    }
+
+    #excelTable .handsontable tr td.listbox.current {
+        background: var(--blue10) !important;
+    }
+
+    #excelTable #excelFooter .handsontable td,
+    #excelTable #excelFooter .handsontable th {
+        background: var(--primary) !important;
+        color: #fff !important;
+        font-weight: 700;
+    }
+
+    #excelTable #excelFooter .handsontable .rowHeader {
+        color: transparent !important;
+    }
+
+    #excelTable {
+        position: relative;
+    }
+
+    #excelTable #excelFooter {
+        position: sticky;
+        bottom: 0;
+    }
+
+    #excelTable td {
+        text-align: start !important;
+    }
+}
