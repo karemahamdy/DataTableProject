@@ -1,13 +1,16 @@
 import { registerAllModules } from 'handsontable/registry';
 import 'handsontable/dist/handsontable.full.css';
+import { arAR, registerLanguageDictionary } from 'handsontable/i18n';
 import { ContextMenu } from 'handsontable/plugins/contextMenu';
 registerAllModules();
+registerLanguageDictionary(arAR);
 import * as XLSX from 'xlsx';
 export const HotTableMixins = {
   data: () => ({ footerKey: 1, renderKey: 1, isLoading: false }),
   computed: {
     hotSettings() {
       return {
+        language: 'ar-AR',
         cells: this.cellRenderer,
         autoRowSize: false,
         autoColumnSize: false,
@@ -46,11 +49,11 @@ export const HotTableMixins = {
         }
       }
     },
-    tableClasses() {
-      let isRTL = this.rtl || this.$vuetify.rtl ? 'handsontable-rtl' : ''
-      let customTable = this.tableHeader.some(({ customStyle }) => customStyle) ? 'customStyle' : ''
-      return `${isRTL} ${customTable}`;
-    },
+  tableClasses() {
+  let isRTL = this.rtl ? 'handsontable-rtl' : ''
+  let customTable = this.tableHeader.some(({ customStyle }) => customStyle) ? 'customStyle' : ''
+  return `${isRTL} ${customTable}`;
+},
     jsonData() {
       if (this.tableData.length > 0) {
         return this.tableData;
