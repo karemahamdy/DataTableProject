@@ -638,4 +638,7 @@ export const HotTableMixins = {
       document.removeEventListener('keydown', this.handleKeyDown);
     }
   },
+  afterScrollVertically: () => {
+  this.$emit('afterScroll')
+},
 };

@@ -3,7 +3,7 @@
         <HotTable :tableHeader="tableHeader" :tableData="tableData" :groupHeader="groupHeader"
             @json="tableData = $event" @cell="cellUpdate($event)" :cellLockups="cellLockups" :emptyRows="10"
             :detail="detail" :add_new="true" :customCellStyle="customCellStyle" ref="HotTable" :viewFooter="true"
-          
+          @afterScroll="afterScrollVertically" 
             :onRowSelection="onRowSelection" />
         <!-- 
         **NOTE  1- json event: Emitted when data is saved from the table (Required).
@@ -39,6 +39,14 @@ import HotTable from './HotTable.vue';
 
 export default {
     data: (v) => ({
+       tableData: [],
+    totalRows: 200000,
+    batchSize: 100,
+    loadedRows: 0,
+    customers: [],
+    suppliers: [],
+    accounts: [],
+    types: [],
         // NOTE - lOCKUPS [Examples]
         customers: [],
         suppliers: [],
@@ -120,8 +128,41 @@ export default {
         this.suppliers = [{ id: 1, name: 'supplier 1' }, { id: 2, name: 'supplier 2' }]
         this.accounts = [{ id: 1, name: 'account1' }, { id: 2, name: 'account 2' }]
         this.types = [{ id: 1, name: 'customer' }, { id: 2, name: 'supplier' }, { id: 3, name: 'account' }]
+         this.loadMoreData()
     },
     methods: {
+      generateMockData(start, count) {
+  const data = []
+  for (let i = start + 1; i <= start + count; i++) {
+    data.push({
+      d_id: i,
+      payment_type: null,
+      type_name: null,
+      price: Math.floor(Math.random() * 5000),
+      qty: 1,
+      active: null,
+      customer_name: `Customer ${i}`,
+      customer_id: i,
+      date: null,
+      time: null
+    })
+  }
+  return data
+},
+
+loadMoreData() {
+  if (this.loadedRows >= this.totalRows) return
+  const newData = this.generateMockData(this.loadedRows, this.batchSize)
+  this.tableData.push(...newData)
+  this.loadedRows += this.batchSize
+},
+
+afterScrollVertically() {
+    const lastVisibleRow = this.$refs?.HotTable?.getLastVisibleRow()
+    if (lastVisibleRow >= this.loadedRows - 10) {
+      this.loadMoreData()
+    }
+  },
         // NOTE - Use ((cellLockups)) if you want you want to make custom dropdowns for each cell
         cellLockups(object, row, col) {
             // NOTE - object is the current row object
@@ -151,7 +192,7 @@ export default {
         customCellStyle(instance, td, row, col, prop, value) {
             return {
                 style: {
-                    backgroundColor: '#777',
+                    backgroundColor: 'rgb(151 43 43)',
                     color: '#fff',
                 },
                 textContent: value
