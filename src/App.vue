@@ -1,18 +1,15 @@
-<script setup>
-import Footer from './components/layout/footer.vue';
-import Navbar from './components/layout/Navbar.vue';
-
-// import ExcelExamplePage from './components/ExcelExamplePage.vue';
-// import DataTable from './pages/DataTable.vue';
-</script>
-
 <template>
-  <Navbar />
-  <p style="height: 60vh;">hello</p>
-   <!-- <DataTable /> -->
-   <!-- <ExcelExamplePage/> -->
-    <Footer/>
+  <v-app>
+    <Navbar />
+    <v-main>
+      <ExcelExamplePage />
+    </v-main>
+    <Footer />
+  </v-app>
 </template>
 
-<style scoped>
-</style>
+<script setup>
+import Navbar from './components/layout/Navbar.vue'
+import Footer from './components/layout/footer.vue'
+import ExcelExamplePage from './components/ExcelExamplePage.vue'
+</script>

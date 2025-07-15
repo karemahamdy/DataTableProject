@@ -54,6 +54,7 @@ export default {
     mixins: [HotTableMixins],
     data: () => ({}),
     props: {
+      getDataAtRow: { type: Function, default: () => {} },
         tableData: { type: Array, default: () => [] },
         groupHeader: { type: Array, default: () => [] },
         tableHeader: { type: Array, default: () => [] },
@@ -62,6 +63,7 @@ export default {
         onRowSelection: { default: Function },
         customCellStyle: { default: Function },
         detail: { type: Object, default: () => { } },
+        afterScroll: { type: Function, default: () => { } },
         requiredDetailKeys: { type: Array, default: () => [] },
         emptyRows: { default: 0 },
         add_new: { default: false },

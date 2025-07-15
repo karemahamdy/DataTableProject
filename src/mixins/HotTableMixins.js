@@ -12,6 +12,8 @@ export const HotTableMixins = {
       return {
         language: 'ar-AR',
         cells: this.cellRenderer,
+          data: [],
+  getDataAtRow: this.getDataAtRow,
         autoRowSize: false,
         autoColumnSize: false,
         height: this.tableHeight,
@@ -35,6 +37,7 @@ export const HotTableMixins = {
         tabNavigation: true,
         nestedHeaders: this.buildNestedHeaders(),
         contextMenu: this.getContextMenuItems(),
+         getDataAtRow: (row) => this.getDataAtRow(row),
         language: arAR.languageCode,
         persistentState: true,
         afterSelectionEnd: (r, c, r2, c2) => this.onRowSelection(r, c, r2, c2),
@@ -54,6 +57,14 @@ export const HotTableMixins = {
   let customTable = this.tableHeader.some(({ customStyle }) => customStyle) ? 'customStyle' : ''
   return `${isRTL} ${customTable}`;
 },
+  getDataAtRow(row) {
+      // لو الداتا محملة
+      if (this.tableData?.[row]) {
+        return this.tableData[row];
+      }
+      // placeholder فاضي لو مفيش
+      return { ...this.detail };
+    },
     jsonData() {
       if (this.tableData.length > 0) {
         return this.tableData;

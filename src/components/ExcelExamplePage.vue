@@ -1,9 +1,9 @@
 <template>
     <div>
         <HotTable :tableHeader="tableHeader" :tableData="tableData" :groupHeader="groupHeader"
-            @json="tableData = $event" @cell="cellUpdate($event)" :cellLockups="cellLockups" :emptyRows="10"
-            :detail="detail" :add_new="true" :customCellStyle="customCellStyle" ref="HotTable" :viewFooter="true"
-          @afterScroll="afterScrollVertically" 
+            @json="tableData = $event" @cell="cellUpdate($event)" :cellLockups="cellLockups" 
+            :detail="detail" :add_new="true" :customCellStyle="customCellStyle" ref="HotTable" :viewFooter="false"
+         @afterScroll="afterScrollVertically"
             :onRowSelection="onRowSelection" />
         <!-- 
         **NOTE  1- json event: Emitted when data is saved from the table (Required).
@@ -77,39 +77,19 @@ export default {
          */
         tableHeader() {
             return [
-                { text: "invoice no", key: "d_id", type: 'text', readonly: true, width: 80 },
-
-                //NOTE -  selectedValue  => which property to display
-                //NOTE -  selectedValue  => where to store the ID
-                //NOTE - selectedValue  =>  which property to use as ID
-                { text: "payment type", key: "payment_type", type: 'dropdown', lockups: this.types, idKey: 'payment_type_id', width: 100 },
-                { text: "entity", key: "type_name", type: 'dropdown', idKey: 'type_id', width: 120 },
-
-                //NOTE - minQueryLength => Minimum number of characters to start the search
-                //NOTE - if you not add minQueryLength it will be default 2
-                //NOTE - extraParams => Extra parameters to pass to the endpoint
-                //NOTE - listKey => ex. response.data[listKey] OR default is response.data
-                { text: "customer", key: "customer_name", type: 'asyncInput', endpoint: 'customer', idKey: 'customer_id', width: 100, minQueryLength: 2, extraParams: { active: 1 } ,listKey:'items' },
-                { text: "customer_id", key: "customer_id", type: 'number', readonly: true, width: 100 },
-                { text: "price", key: "price", type: 'float', width: 100, customStyle: true },
-
-                { text: "quantity", key: "qty", type: 'number', width: 100 },
-                { text: "active", key: "active", type: 'boolean', width: 100 },
-                { text: "check", key: "active", type: 'checkbox', width: 100 },
-                { text: "date", key: "date", type: 'date', width: 100 },
-                { text: "time", key: "time", type: 'time', width: 100 },
-                { text: "button", key: "button", type: 'button', width: 80, buttonColor: 'var(--white)', buttonBackground: 'var(--error)', buttonHeight: '25px' },
-                
-            ]
+       { text: "invoice no", key: "d_id", type: 'text', readonly: true, width: 80 },
+        { text: "payment type", key: "payment_type", type: 'dropdown', lockups: this.types, idKey: 'payment_type_id', width: 100 },
+        { text: "entity", key: "type_name", type: 'dropdown', idKey: 'type_id', width: 120 },
+        { text: "customer", key: "customer_name", type: 'asyncInput', endpoint: 'customer', idKey: 'customer_id', width: 100, minQueryLength: 2, extraParams: { active: 1 }, listKey: 'items' },
+        { text: "customer_id", key: "customer_id", type: 'number', readonly: true, width: 100 },
+        { text: "price", key: "price", type: 'float', width: 100, customStyle: true },
+        { text: "quantity", key: "qty", type: 'number', width: 100 },
+        { text: "active", key: "active", type: 'boolean', width: 100 },
+      
+      ];
         },
         // NOTE - Group Header Example
-        groupHeader() {
-            return [
-                { text: "", colspan: 2 },
-                { text: "entity", colspan: 3 },
-                { text: "gold", colspan: 2 },
-            ];
-        },
+    
     },
     watch: {
         tableData() { // NOTE - if you want you want to watch any updates in json data
@@ -128,7 +108,9 @@ export default {
         this.suppliers = [{ id: 1, name: 'supplier 1' }, { id: 2, name: 'supplier 2' }]
         this.accounts = [{ id: 1, name: 'account1' }, { id: 2, name: 'account 2' }]
         this.types = [{ id: 1, name: 'customer' }, { id: 2, name: 'supplier' }, { id: 3, name: 'account' }]
-         this.loadMoreData()
+ for (let i = 0; i < 50; i++) { // 50 * 100 = 5000 rows
+        this.loadMoreData();
+    }
     },
     methods: {
       generateMockData(start, count) {
@@ -156,13 +138,14 @@ loadMoreData() {
   this.tableData.push(...newData)
   this.loadedRows += this.batchSize
 },
-
 afterScrollVertically() {
-    const lastVisibleRow = this.$refs?.HotTable?.getLastVisibleRow()
+    console.log('afterScrollVertically called');
+    const lastVisibleRow = this.$refs?.HotTable?.getLastVisibleRow();
+    console.log('lastVisibleRow:', lastVisibleRow, 'loadedRows:', this.loadedRows);
     if (lastVisibleRow >= this.loadedRows - 10) {
-      this.loadMoreData()
+        this.loadMoreData();
     }
-  },
+},
         // NOTE - Use ((cellLockups)) if you want you want to make custom dropdowns for each cell
         cellLockups(object, row, col) {
             // NOTE - object is the current row object

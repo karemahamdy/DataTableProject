@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" v-model="searchKeyword" @input="handleFilter" placeholder="Search..." class="my-3 p-2 border" />
+  
     <div ref="hotContainer" style="height: 500px; overflow: hidden;"></div>
   </div>
 </template>
@@ -36,17 +36,10 @@ const fetchData = () => {
     renderAllRows: false,
     autoRowSize: false,
     autoColumnSize: false,
-    viewportRowRenderingOffset: 50,
+    viewportRowRenderingOffset: 850,
   })
 }
 
-const handleFilter = () => {
-  const keyword = searchKeyword.value.toLowerCase()
-  const filtered = originalData.filter(row =>
-    row.some(cell => String(cell).toLowerCase().includes(keyword))
-  )
-  hotInstance.loadData(filtered)
-}
 
 onMounted(() => {
   fetchData()
